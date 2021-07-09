@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+
+<head>
+  <title>Search AlgoVisualise</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+  <script type="module" src="javascripts/main.js" defer></script>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+
+<body>
+
+  <div id="app" class=page-wrapper>
+
+    <div class=sidebar>
+  
+      <div class=algorithm-select>
+        <h1 style="color:#04AA6D;" class=select-title>Select Algorithm</h1>
+        <div v-on:click="bindSelected('Selection Sort')" class=selectSort>Selection Sort</div>
+        <div v-on:click="bindSelected('Bubble Sort')" class=bubbleSort>Bubble Sort</div>
+        <div v-on:click="bindSelected('Insertion Sort')" class=insertionSort>Insertion Sort</div>
+        <!-- <div v-on:click="bindSelected('Distribution Sort')" class=distributionSort>Distribution Sort</div> -->
+        <div v-on:click="bindSelected('Merge Sort')" class=mergeSort>Merge Sort</div>
+        <div v-on:click="bindSelected('Quick Sort')" class=quickSort>Quick Sort</div>
+      </div>
+    
+      <div class=array-size>
+  
+        <div style="color:#04AA6D;" class=array-size-title>
+          Edit Array Size
+        </div>
+      
+        <div class=array-size-slider>
+          <input v-on:input="generateArray" type="range" step="5" min="5" max="100" value="50" id="slider">
+        </div>
+  
+      </div>
+ 
+      <div v-on:click="startSort" style="color:#04AA6D;" class=sort-me>
+        SORT ME
+      </div>
+
+      <div class=stats>
+        <div style="font-weight:bold" class=selectedAlgorithm>{{selectedAlgorithm}}</div>
+        <div class=worstComplexity>Worst Complexity: {{ complexity[selectedAlgorithm].worstcase }}</div>
+        <div class=averageComplexity>Average Complexity: {{ complexity[selectedAlgorithm].averagecase }} </div>
+        <div class=bestComplexity>Best Complexity: {{ complexity[selectedAlgorithm].bestcase }}</div>
+        <div class=comparisons>Comparison: {{ statistics.comparisons }}</div>
+        <div class=arrayAccess>Array Accesses: {{ statistics.arrayaccesses }}</div>
+      </div>
+    </div> <!-- end side-bar wrapper -->
+ 
+    <div class=main-content>
+       
+
+      <div class=graph-wrapper>
+       
+        <div class="graph-line" :id="'graph-line-' + index" :style="{height: 3.5 * item + 'px'}" 
+        v-for="(item, index) in theArray" v-if="arraySize >= index" :key="index" >
+      </div>
+      
+      </div> 
+
+    </div> <!-- end main-content wrapper -->
+
+  </div> <!-- end page wrapper -->
+
+</body>
+
+</html>
