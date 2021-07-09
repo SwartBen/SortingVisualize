@@ -45,32 +45,43 @@ var vueinst = new Vue({
         statistics: {
             comparisons: 0,
             arrayaccesses: 0
-        }
+        },
+        state: {isSorting: false}
     },
     methods: {
         bindSelected: function(selected) {
-            this.selectedAlgorithm = selected
-            vueinst.currentComplexity = this.complexity[selected]
-        },
-        startSort: function() {
-            if(this.selectedAlgorithm === 'Selection Sort') {
-                this.selectionSort();
-            } else if (this.selectedAlgorithm === 'Bubble Sort') {
-                this.bubbleSort();
-            } else if (this.selectedAlgorithm === 'Quick Sort') {
-                this.quickSort(0, parseInt(this.arraySize - 1));
-            } else if (this.selectedAlgorithm === 'Insertion Sort') {
-                this.selectionSort();
-            } else if (this.selectedAlgorithm === 'Merge Sort') {
-                this.mergeSort(0, this.arraySize - 1)
+            if(this.state.isSorting === false) {
+                vueinst.statistics.arrayaccesses = 0;
+                vueinst.statistics.comparisons = 0;
+                this.selectedAlgorithm = selected
+                vueinst.currentComplexity = this.complexity[selected]
+                this.generateArray();
             }
         },
+        startSort: async function() {
+            if(this.state.isSorting === false) {
+                Vue.set(vueinst.state, 'isSorting', true)
+                if(this.selectedAlgorithm === 'Selection Sort') {
+                    await this.selectionSort();
+                } else if (this.selectedAlgorithm === 'Bubble Sort') {
+                    await this.bubbleSort();
+                } else if (this.selectedAlgorithm === 'Quick Sort') {
+                    await this.quickSort(0, parseInt(this.arraySize - 1));
+                } else if (this.selectedAlgorithm === 'Insertion Sort') {
+                    await this.selectionSort();
+                } else if (this.selectedAlgorithm === 'Merge Sort') {
+                    await this.mergeSort(0, this.arraySize - 1)
+                }
+            }
+            Vue.set(vueinst.state, 'isSorting', false)
+        },
         generateArray: function() {
-            this.arraySize = document.getElementById('slider').value
-
-            this.theArray = [];
-            for (var i=0; i<this.arraySize; i++) {
-                this.theArray[i] = Math.floor(Math.random() * (200 - 5 + 1)) + 5;
+            if(this.state.isSorting === false) {
+                this.arraySize = document.getElementById('slider').value
+                this.theArray = [];
+                for (var i=0; i<this.arraySize; i++) {
+                    this.theArray[i] = Math.floor(Math.random() * (200 - 5 + 1)) + 5;
+                }
             }
         },
         initArray: function() {
@@ -153,15 +164,19 @@ var vueinst = new Vue({
                 temp = vueinst.theArray[i]
                 Vue.set(vueinst.theArray, i, vueinst.theArray[pivotIndex])
                 Vue.set(vueinst.theArray, pivotIndex, temp)
+                this.statistics.arrayaccesses++;
                 await this.sleep(100)
                 //Move to next element
                 pivotIndex++;
                 }
+                this.statistics.comparisons++;
             }
             //Place pivot value in the middle
             temp = this.theArray[pivotIndex]
             Vue.set(vueinst.theArray, pivotIndex, vueinst.theArray[end])
             Vue.set(vueinst.theArray, end, temp)
+            this.statistics.arrayaccesses++;
+
             await this.sleep(100)
 
             return pivotIndex;
@@ -172,8 +187,8 @@ var vueinst = new Vue({
             //Returns pivotIndex
             let index = await vueinst.partition(start, end)
             //Recursively apply same logic to left and right subarrays
-            vueinst.quickSort(start, index - 1);
-            vueinst.quickSort(index + 1, end);
+            await vueinst.quickSort(start, index - 1);
+            await vueinst.quickSort(index + 1, end);
         },
         //Merge Sort
         merge: async function(start, mid, end)
@@ -196,27 +211,31 @@ var vueinst = new Vue({
         
                     // Shift all the elements between element 1 element 2, right by 1.
                     while (index != start) {
-                        await this.sleep(200)
+                        await this.sleep(50)
                         Vue.set(vueinst.theArray, index, vueinst.theArray[index-1])
+                        this.statistics.comparisons++;
+                        this.statistics.arrayaccesses++;
                         index--;
                     }
-                    await this.sleep(200)
+                    await this.sleep(50)
                     Vue.set(vueinst.theArray, start, value)
+                    this.statistics.arrayaccesses++;
         
                     //Update counters
                     start++; mid++; start2++;
                 }
+                this.statistics.comparisons++;
             }
         },
-        mergeSort: function(l, r)
+        mergeSort: async function(l, r)
         {
             if (l < r) {
                 var m = Math.floor((l + r) / 2);
         
                 //Sort first and second halves
-                this.mergeSort(l, m);
-                this.mergeSort(m + 1, r);
-                this.merge(l, m, r);
+                await this.mergeSort(l, m);
+                await this.mergeSort(m + 1, r);
+                await this.merge(l, m, r);
             }
         },
         //Set timeout
