@@ -32,26 +32,24 @@
         <div class=array-size-slider>
           <input v-on:input="generateArray" type="range" step="5" min="5" max="100" value="50" id="slider">
         </div>
-  
       </div>
  
       <div v-on:click="startSort" style="color:#04AA6D;" class=sort-me>
         SORT ME
-      </div>
+      </div> <!-- End Green Section of sidebar -->
 
       <div class=stats>
         <div style="font-weight:bold" class=selectedAlgorithm>{{selectedAlgorithm}}</div>
-        <div class=worstComplexity>Worst Complexity: {{ complexity[selectedAlgorithm].worstcase }}</div>
-        <div class=averageComplexity>Average Complexity: {{ complexity[selectedAlgorithm].averagecase }} </div>
-        <div class=bestComplexity>Best Complexity: {{ complexity[selectedAlgorithm].bestcase }}</div>
-        <div class=comparisons>Comparison: {{ statistics.comparisons }}</div>
-        <div class=arrayAccess>Array Accesses: {{ statistics.arrayaccesses }}</div>
+        <div class=worstComplexity><strong>Worst Complexity: </strong>{{ complexity[selectedAlgorithm].worstcase }}</div>
+        <div class=averageComplexity><strong>Average Complexity: </strong>{{ complexity[selectedAlgorithm].averagecase }} </div>
+        <div class=bestComplexity><strong>Best Complexity: </strong>{{ complexity[selectedAlgorithm].bestcase }}</div>
+        <div class=comparisons><strong>Comparison: </strong>{{ statistics.comparisons }}</div>
+        <div class=arrayAccess><strong>Array Accesses: </strong>{{ statistics.arrayaccesses }}</div>
       </div>
     </div> <!-- end side-bar wrapper -->
  
     <div class=main-content>
        
-
       <div class=graph-wrapper>
        
         <div class="graph-line" :id="'graph-line-' + index" :style="{height: 3.5 * item + 'px'}" 
