@@ -2,7 +2,7 @@ var vueinst = new Vue({
     el: "#app",
     data: {
         selectedAlgorithm: "",
-        arraySize: "50",
+        arraySize: "60",
         theArray: [],
         complexity: {
             'Selection Sort': {
@@ -44,14 +44,14 @@ var vueinst = new Vue({
         currentComplexity: "",
         statistics: {
             comparisons: 0,
-            arrayaccesses: 0
+            swaps: 0
         },
         state: {isSorting: false}
     },
     methods: {
         bindSelected: function(selected) {
             if(this.state.isSorting === false) {
-                vueinst.statistics.arrayaccesses = 0;
+                vueinst.statistics.swaps = 0;
                 vueinst.statistics.comparisons = 0;
                 this.selectedAlgorithm = selected
                 vueinst.currentComplexity = this.complexity[selected]
@@ -90,11 +90,7 @@ var vueinst = new Vue({
             }
         },
         selectionSort: async function() {
-            //For visual:
-            //sorted - green
-            //current val - blue
-            //current lowest - red 
-            //starting - grey
+            //For visual: sorted - green, current val - blue, current lowest - red, starting - grey
 
             var indexMin, j, i
             for (i = 0; i < this.arraySize; i++) {
@@ -114,7 +110,7 @@ var vueinst = new Vue({
                     var temp = this.theArray[indexMin]
                     Vue.set(vueinst.theArray, indexMin, vueinst.theArray[i])
                     Vue.set(vueinst.theArray, i, temp)
-                    vueinst.statistics.arrayaccesses++
+                    vueinst.statistics.swaps++
                     await this.sleep(200)
                 }
             }
@@ -126,7 +122,7 @@ var vueinst = new Vue({
                         var temp = this.theArray[j]
                         Vue.set(vueinst.theArray, j, vueinst.theArray[j+1])
                         Vue.set(vueinst.theArray, j+1, temp)
-                        vueinst.statistics.arrayaccesses++
+                        vueinst.statistics.swaps++
                         await this.sleep(50)
                     }
                     vueinst.statistics.comparisons++;
@@ -164,7 +160,7 @@ var vueinst = new Vue({
                 temp = vueinst.theArray[i]
                 Vue.set(vueinst.theArray, i, vueinst.theArray[pivotIndex])
                 Vue.set(vueinst.theArray, pivotIndex, temp)
-                this.statistics.arrayaccesses++;
+                this.statistics.swaps++;
                 await this.sleep(100)
                 //Move to next element
                 pivotIndex++;
@@ -175,7 +171,7 @@ var vueinst = new Vue({
             temp = this.theArray[pivotIndex]
             Vue.set(vueinst.theArray, pivotIndex, vueinst.theArray[end])
             Vue.set(vueinst.theArray, end, temp)
-            this.statistics.arrayaccesses++;
+            this.statistics.swaps++;
 
             await this.sleep(100)
 
@@ -191,8 +187,7 @@ var vueinst = new Vue({
             await vueinst.quickSort(index + 1, end);
         },
         //Merge Sort
-        merge: async function(start, mid, end)
-        {
+        merge: async function(start, mid, end) {
             var start2 = mid + 1;
         
             // If the direct merge is already sorted
@@ -214,12 +209,12 @@ var vueinst = new Vue({
                         await this.sleep(50)
                         Vue.set(vueinst.theArray, index, vueinst.theArray[index-1])
                         this.statistics.comparisons++;
-                        this.statistics.arrayaccesses++;
+                        this.statistics.swaps++;
                         index--;
                     }
                     await this.sleep(50)
                     Vue.set(vueinst.theArray, start, value)
-                    this.statistics.arrayaccesses++;
+                    this.statistics.swaps++;
         
                     //Update counters
                     start++; mid++; start2++;
@@ -227,8 +222,7 @@ var vueinst = new Vue({
                 this.statistics.comparisons++;
             }
         },
-        mergeSort: async function(l, r)
-        {
+        mergeSort: async function(l, r) {
             if (l < r) {
                 var m = Math.floor((l + r) / 2);
         

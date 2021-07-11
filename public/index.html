@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <head>
-  <title>Search AlgoVisualise</title>
+  <title>Search Algorithm Visualizer</title>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
   <script type="module" src="javascripts/main.js" defer></script>
   <link rel="stylesheet" href="stylesheets/style.css">
@@ -30,12 +30,12 @@
         </div>
       
         <div class=array-size-slider>
-          <input v-on:input="generateArray" type="range" step="5" min="5" max="100" value="50" id="slider">
+          <input v-on:input="generateArray" type="range" step="5" min="20" max="100" value="60" id="slider">
         </div>
       </div>
  
       <div v-on:click="startSort" style="color:#04AA6D;" class=sort-me>
-        SORT ME
+        SORT
       </div> <!-- End Green Section of sidebar -->
 
       <div class=stats>
@@ -43,8 +43,9 @@
         <div class=worstComplexity><strong>Worst Complexity: </strong>{{ complexity[selectedAlgorithm].worstcase }}</div>
         <div class=averageComplexity><strong>Average Complexity: </strong>{{ complexity[selectedAlgorithm].averagecase }} </div>
         <div class=bestComplexity><strong>Best Complexity: </strong>{{ complexity[selectedAlgorithm].bestcase }}</div>
-        <div class=comparisons><strong>Comparison: </strong>{{ statistics.comparisons }}</div>
-        <div class=arrayAccess><strong>Array Accesses: </strong>{{ statistics.arrayaccesses }}</div>
+        <div class=comparisons><strong>Comparisons: </strong>{{ statistics.comparisons }}</div>
+        <div class=arrayAccess><strong>Element Swaps: </strong>{{ statistics.swaps }}</div>
+        <div class=arraySize><strong>Array size: </strong>{{ arraySize }}</div>
       </div>
     </div> <!-- end side-bar wrapper -->
  
@@ -53,7 +54,7 @@
       <div class=graph-wrapper>
        
         <div class="graph-line" :id="'graph-line-' + index" :style="{height: 3.5 * item + 'px'}" 
-        v-for="(item, index) in theArray" v-if="arraySize >= index" :key="index" >
+        v-for="(item, index) in theArray" :key="index">
       </div>
       
       </div> 
