@@ -72,8 +72,8 @@ var vueinst = new Vue({
                 } else if (this.selectedAlgorithm === 'Merge Sort') {
                     await this.mergeSort(0, this.arraySize - 1)
                 }
+                Vue.set(vueinst.state, 'isSorting', false)
             }
-            Vue.set(vueinst.state, 'isSorting', false)
         },
         generateArray: function() {
             if(this.state.isSorting === false) {
