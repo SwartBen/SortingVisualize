@@ -1,11 +1,11 @@
 # SortingVisualize
 
-Contains the following algorithms:
+Contains the following sorting algorithms:
 - Insertion sort
 - Bubble Sort
 - Select Sort
-- Quick Sort (TBC)
-- Merge Sort (TBC)
+- Quick Sort
+- Merge Sort
 
 
 
