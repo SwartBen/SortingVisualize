@@ -1,4 +1,4 @@
-# SortingVisualize
+# Sorting Visualisation
 
 Contains the following sorting algorithms:
 - Insertion sort
