@@ -1,6 +1,6 @@
 # SortingVisualize
 
-- Visualize's the following algorithms:
+Contains the following algorithms:
 - Insertion sort
 - Bubble Sort
 - Select Sort
